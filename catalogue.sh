@@ -40,7 +40,7 @@ VALIDATE $? "INSTALLATION nodejs"
 useradd roboshop &>> $LOGFILE
 VALIDATE $? "roboshop user created"
 
-mkdir /app/
+mkdir -p /app
 VALIDATE $? "app directory created"
 
 cd /app/
