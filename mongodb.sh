@@ -28,6 +28,19 @@ else
 fi
 
 cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
-
 VALIDATE $? "Copied Mongo repo file"
 
+dnf install mongodb-org -y &>> $LOGFILE
+VALIDATE $? "MONGODB INSTALLATION"
+
+systemctl enable mongod &>> $LOGFILE
+VALIDATE $? "Enabled MONGODB service"
+
+systemctl start mongod &>> $LOGFILE
+VALIDATE $? "Started MONGODB service"
+
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf &>> $LOGFILE
+VALIDATE $? "Remote access to MongoDB"
+
+systemctl restart mongod &>> $LOGFILE
+VALIDATE $? "restarted MONGODB service"
