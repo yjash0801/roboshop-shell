@@ -15,6 +15,7 @@ VALIDATE() {
     if [ $1 -ne 0 ]
     then
         echo -e "$2 . . $R failed $N"
+        exit 1
     else
         echo -e "$2 . . $G success $N"
     fi
@@ -89,10 +90,11 @@ fi
 dnf install mongodb-org-shell -y &>> $LOGFILE
 VALIDATE $? "Installed MongoDB client"
 
-if [ -f /app/schema/catalogue.js ]; then
+if [ -f /app/schema/catalogue.js ]
+then
     mongo --host $MONGODB_HOST </app/schema/catalogue.js &>> $LOGFILE
     VALIDATE $? "Loaded data to MongoDB client"
 else
-    echo -e "$R Schema file /app/schema/catalogue.js not found. $N" | tee -a $LOGFILE
+    echo -e "$R Schema file /app/schema/catalogue.js not found. $N"
     exit 1
 fi
