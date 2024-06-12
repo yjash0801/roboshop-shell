@@ -89,5 +89,10 @@ fi
 dnf install mongodb-org-shell -y &>> $LOGFILE
 VALIDATE $? "Installed MongoDB client"
 
-mongo --host $MONGODB_HOST </app/schema/catalogue.js &>> $LOGFILE
-VALIDATE $? "Loaded data to MongoDB client"
+if [ -f /app/schema/catalogue.js ]; then
+    mongo --host $MONGODB_HOST </app/schema/catalogue.js &>> $LOGFILE
+    VALIDATE $? "Loaded data to MongoDB client"
+else
+    echo -e "$R Schema file /app/schema/catalogue.js not found. $N" | tee -a $LOGFILE
+    exit 1
+fi
