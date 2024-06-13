@@ -31,6 +31,7 @@ yum list installed nginx
 
 if [ $? -ne 0 ]
 then
+    echo -e "${Y}The Nginx not installed, Installing Nginx.${N}"
     dnf install nginx -y &>> $LOGFILE
     VALIDATE $? "INSTALLED Nginx"
 else
