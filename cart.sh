@@ -55,7 +55,7 @@ cd /app/
 curl -o /tmp/cart.zip https://roboshop-builds.s3.amazonaws.com/cart.zip &>> $LOGFILE
 VALIDATE $? "Downloaded cart.zip"
 
-unzip /tmp/cart.zip &>> $LOGFILE
+unzip -o /tmp/cart.zip &>> $LOGFILE
 VALIDATE $? "Unzipped cart.zip to app directory"
 
 npm install &>> $LOGFILE

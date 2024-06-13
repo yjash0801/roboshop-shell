@@ -46,7 +46,7 @@ VALIDATE $? "Downloading the shipping.zip"
 
 cd /app
 
-unzip /tmp/shipping.zip &>> $LOGFILE
+unzip -o /tmp/shipping.zip &>> $LOGFILE
 VALIDATE $? "Unzipped shipping.zip to app directory"
 
 mvn clean package &>> $LOGFILE
