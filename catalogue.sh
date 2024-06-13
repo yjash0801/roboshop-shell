@@ -14,19 +14,19 @@ MONGODB_HOST=mongodb.mechanoidstore.online
 VALIDATE() {
     if [ $1 -ne 0 ]
     then
-        echo -e "$2 . . $R failed $N"
+        echo -e "$2 . . ${R}FAILED${N}"
         exit 1
     else
-        echo -e "$2 . . $G success $N"
+        echo -e "$2 . . ${G}SUCCESS${N}"
     fi
 }
 
 if [ $ID -ne 0 ]
 then
-    echo -e "$R Root permissions required,$N run script with root user."
+    echo -e "${R}Root permissions required,${N}run script with root user."
     exit 1
 else
-    echo -e "$G Script executed with root user. $N"
+    echo -e "${G}Script executed with root user.${N}"
 fi
 
 dnf module disable nodejs -y &>> $LOGFILE
@@ -38,8 +38,9 @@ VALIDATE $? "Enabled nodejs module version 18"
 dnf install nodejs -y &>> $LOGFILE
 VALIDATE $? "Installed nodejs"
 
-if id "roboshop" &>/dev/null; then
-    echo -e "$Y roboshop user already exists. $N"
+if id "roboshop" &>/dev/null
+then
+    echo -e "${Y}roboshop user already exists.${N}"
 else
     useradd roboshop &>> $LOGFILE
     VALIDATE $? "Created roboshop user"
@@ -48,8 +49,8 @@ fi
 mkdir -p /app
 VALIDATE $? "Created app directory"
 
-chown roboshop:roboshop /app
-VALIDATE $? "Set permissions for app directory"
+# chown roboshop:roboshop /app
+# VALIDATE $? "Set permissions for app directory"
 
 cd /app/
 
@@ -62,11 +63,12 @@ VALIDATE $? "Unzipped catalogue.zip to app directory"
 npm install &>> $LOGFILE
 VALIDATE $? "Downloaded dependencies"
 
-if [ -f /home/centos/roboshop-shell/catalogue.service ]; then
+if [ -f /home/centos/roboshop-shell/catalogue.service ]
+then
     cp /home/centos/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service &>> $LOGFILE
     VALIDATE $? "Copied the service file"
 else
-    echo -e "$R Service file not found. $N"
+    echo -e "${R}Service file not found.${N}"
     exit 1
 fi
 
@@ -79,11 +81,12 @@ VALIDATE $? "Enabled catalogue service"
 systemctl start catalogue &>> $LOGFILE
 VALIDATE $? "Started catalogue service"
 
-if [ -f /home/centos/roboshop-shell/mongo.repo ]; then
+if [ -f /home/centos/roboshop-shell/mongo.repo ]
+then
     cp /home/centos/roboshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
     VALIDATE $? "Copied Mongo repo file"
 else
-    echo -e "$R Mongo repo file not found. $N"
+    echo -e "${R}Mongo repo file not found.${N}"
     exit 1
 fi
 
@@ -95,6 +98,6 @@ then
     mongo --host $MONGODB_HOST </app/schema/catalogue.js &>> $LOGFILE
     VALIDATE $? "Loaded data to MongoDB client"
 else
-    echo -e "$R Schema file /app/schema/catalogue.js not found. $N"
+    echo -e "${R}Schema file /app/schema/catalogue.js not found.${N}"
     exit 1
 fi

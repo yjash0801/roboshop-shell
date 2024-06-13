@@ -8,27 +8,33 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-LOGFILE=/tmp/$0-$DATE.log
+LOGFILE=/tmp/$(basename $0)-$DATE.log
 
 VALIDATE() {
     if [ $1 -ne 0 ]
     then
-        echo -e "$N $2 . . $R failed"
+        echo -e "${N}$2 . . ${R}FAILED${N}"
     else
-        echo -e "$N $2 . . $G sucess"
+        echo -e "${N}$2 . . ${R}SUCCESS${N}"
     fi
 }
 
 if [ $ID -ne 0 ]
 then
-    echo -e "$R Root permissions required,$N run script with root user."
+    echo -e "${R}Root permissions required,${N}run script with root user."
     exit 1
 else
-    echo -e "$G Script executed with root user."
+    echo -e "${G}Script executed with root user."
 fi
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
-VALIDATE $? "Copied Mongo repo file"
+if [ -f /home/centos/roboshop-shell/mongo.repo ]
+then
+    cp /home/centos/roboshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo &>> $LOGFILE
+    VALIDATE $? "Copied Mongo repo file"
+else
+    echo -e "${R}Mongo Repo file not found${N}"
+    exit 1
+fi
 
 dnf install mongodb-org -y &>> $LOGFILE
 VALIDATE $? "MONGODB INSTALLATION"

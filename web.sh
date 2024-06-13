@@ -13,22 +13,29 @@ N="\e[0m"
 VALIDATE() {
     if [ $1 -ne 0 ]
     then
-        echo -e "$2 . . $R failed $N"
+        echo -e "${N}$2 . . ${R}FAILED${N}"
         exit 1
     else
-        echo -e "$2 . . $R success $N"
+        echo -e "${N}$2 . . ${R}SUCCESS${N}"
 }
 
 if [ $ID -ne 0 ]
 then
-    echo "$R root permission required,$N run script with super user"
+    echo "${R}root permission required,${N}run script with super user"
     exit 1
 else
-    echo "$G Script executed with root user. $N"
+    echo "${G}Script executed with root user.${N}"
 fi
 
-dnf install nginx -y &>> $LOGFILE
-VALIDATE $? "INSTALLED Nginx"
+yum list installed nginx
+
+if [ $? -ne 0 ]
+then
+    dnf install nginx -y &>> $LOGFILE
+    VALIDATE $? "INSTALLED Nginx"
+else
+    echo -e "${Y}The Nginx is already installed.${N}"
+fi
 
 systemctl enable nginx &>> $LOGFILE
 VALIDATE "Enabling Nginx Service"
@@ -53,7 +60,7 @@ then
     cp /home/centos/roboshop-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf &>> $LOGFILE
     VALIDATE $? "Copying the roboshop configuration file"
 else
-    echo -e "$R Service file not found. $N"
+    echo -e "${R}Service file not found.${N}"
     exit 1
 fi
 
