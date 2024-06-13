@@ -16,7 +16,7 @@ VALIDATE() {
         echo -e "${N}$2 . . ${R}FAILED${N}"
         exit 1
     else
-        echo -e "${N}$2 . . ${R}SUCCESS${N}"
+        echo -e "${N}$2 . . ${G}SUCCESS${N}"
     fi
 }
 
@@ -28,7 +28,7 @@ else
     echo -e "${G}Script executed with root user.${N}"
 fi
 
-yum list installed nginx
+yum list installed nginx &>> $LOGFILE
 
 if [ $? -ne 0 ]
 then
@@ -40,13 +40,13 @@ else
 fi
 
 systemctl enable nginx &>> $LOGFILE
-VALIDATE "Enabling Nginx Service"
+VALIDATE $? "Enabling Nginx Service"
 
 systemctl start nginx &>> $LOGFILE
-VALIDATE "Starting Nginx Service"
+VALIDATE $? "Starting Nginx Service"
 
 rm -rf /usr/share/nginx/html/* &>> $LOGFILE
-VALIDATE "Removing default content in Nginx"
+VALIDATE $? "Removing default content in Nginx"
 
 curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip
 VALIDATE $? "Downloading web.zip"
@@ -67,4 +67,4 @@ else
 fi
 
 systemctl restart nginx &>> $LOGFILE
-VALIDATE "Restarting Nginx Service"
+VALIDATE $? "Restarting Nginx Service"
