@@ -52,7 +52,7 @@ VALIDATE $? "Creating app directory"
 # chown roboshop:roboshop /app
 # VALIDATE $? "Set permissions for app directory"
 
-curl -o /tmp/user.zip https://roboshop-builds.s3.amazonaws.com/user.zip &>> $LOGFILE
+curl -L -o /tmp/user.zip https://roboshop-builds.s3.amazonaws.com/user.zip &>> $LOGFILE
 VALIDATE $? "Downloading the user.zip"
 
 cd /app 
