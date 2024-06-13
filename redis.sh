@@ -25,6 +25,7 @@ then
     exit 1
 else
     echo -e "${G}Script executed with root user.${N}"
+fi
 
 dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y &>> $LOGFILE
 VALIDATE $? "Installing Redis rpm repo file"
