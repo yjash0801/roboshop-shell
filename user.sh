@@ -95,7 +95,7 @@ VALIDATE $? "Installing MongoDB-client"
 
 if [ -f /app/schema/user.js ]
 then
-    mongo --host $MONGODB_HOST </app/schema/user.js
+    mongo --host $MONGODB_HOST </app/schema/user.js &>> $LOGFILE
     VALIDATE $? "Loaded data to MongoDB client"
 else
     echo -e "${R}Schema file /app/schema/user.js not found.${N}"
