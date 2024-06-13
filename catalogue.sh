@@ -23,7 +23,7 @@ VALIDATE() {
 
 if [ $ID -ne 0 ]
 then
-    echo -e "${R}Root permissions required,${N}run script with root user."
+    echo -e "${R}Root permissions required,${N} run script with root user."
     exit 1
 else
     echo -e "${G}Script executed with root user.${N}"
