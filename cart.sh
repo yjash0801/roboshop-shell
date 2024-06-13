@@ -36,19 +36,19 @@ VALIDATE $? "Enabled nodejs module version 18"
 dnf install nodejs -y &>> $LOGFILE
 VALIDATE $? "Installed nodejs"
 
-if id "roboshop" &>/dev/null
+if [ $? -ne 0 ]
 then
-    echo -e "${Y}roboshop user already exists.${N}"
+    useradd roboshop
+    VALIDATE $? "roboshop user creation"
 else
-    useradd roboshop &>> $LOGFILE
-    VALIDATE $? "Created roboshop user"
+    echo -e "roboshop user already exist $Y SKIPPING $N"
 fi
 
 mkdir -p /app
 VALIDATE $? "Created app directory"
 
-# chown roboshop:roboshop /app
-# VALIDATE $? "Set permissions for app directory"
+chown roboshop:roboshop /app
+VALIDATE $? "Set permissions for app directory"
 
 cd /app/
 
