@@ -2,7 +2,6 @@
 
 ID=$(id -u)
 DATE=$(date +%F:%H:%M:%S)
-
 LOGFILE=/tmp/$(basename $0)-$DATE.log
 
 R="\e[31m"
@@ -29,14 +28,15 @@ else
 fi
 
 yum list installed nginx &>> $LOGFILE
+VALIDATE $? "Checking if Nginx is installed"
 
-if [ $? -ne 0 ]
+if ! rpm -q nginx &> /dev/null
 then
-    echo -e "${Y}The Nginx not installed, Installing Nginx.${N}"
+    echo -e "${Y}Nginx not installed, installing Nginx.${N}"
     dnf install nginx -y &>> $LOGFILE
-    VALIDATE $? "INSTALLED Nginx"
+    VALIDATE $? "Installing Nginx"
 else
-    echo -e "${Y}The Nginx is already installed.${N}"
+    echo -e "${Y}Nginx is already installed.${N}"
 fi
 
 systemctl enable nginx &>> $LOGFILE
@@ -48,7 +48,7 @@ VALIDATE $? "Starting Nginx Service"
 rm -rf /usr/share/nginx/html/* &>> $LOGFILE
 VALIDATE $? "Removing default content in Nginx"
 
-curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip
+curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>> $LOGFILE
 VALIDATE $? "Downloading web.zip"
 
 cd /usr/share/nginx/html &>> $LOGFILE
