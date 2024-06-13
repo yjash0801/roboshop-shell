@@ -28,9 +28,8 @@ else
 fi
 
 yum list installed nginx &>> $LOGFILE
-VALIDATE $? "Checking if Nginx is installed"
 
-if ! rpm -q nginx &> /dev/null
+if [ $? -ne 0 ]
 then
     echo -e "${Y}Nginx not installed, installing Nginx.${N}"
     dnf install nginx -y &>> $LOGFILE
