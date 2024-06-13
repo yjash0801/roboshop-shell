@@ -32,7 +32,7 @@ fi
 dnf module disable nodejs -y &>> $LOGFILE
 VALIDATE $? "Disabling current nodejs version"
 
-dnf module enable nodejs:18 -y
+dnf module enable nodejs:18 -y &>> $LOGFILE
 VALIDATE $? "Enabling nodejs version 18"
 
 dnf install nodejs -y &>> $LOGFILE
@@ -93,7 +93,7 @@ fi
 dnf install mongodb-org-shell -y &>> $LOGFILE
 VALIDATE $? "Installing MongoDB-client"
 
-if [-f /app/schema/user.js ]
+if [ -f /app/schema/user.js ]
 then
     mongo --host $MONGODB_HOST </app/schema/user.js
     VALIDATE $? "Loaded data to MongoDB client"
