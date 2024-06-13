@@ -17,6 +17,7 @@ VALIDATE() {
         exit 1
     else
         echo -e "${N}$2 . . ${R}SUCCESS${N}"
+    fi
 }
 
 if [ $ID -ne 0 ]
