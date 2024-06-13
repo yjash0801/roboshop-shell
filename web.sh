@@ -22,10 +22,10 @@ VALIDATE() {
 
 if [ $ID -ne 0 ]
 then
-    echo "${R}root permission required,${N}run script with super user"
+    echo -e "${R}root permission required,${N}run script with super user"
     exit 1
 else
-    echo "${G}Script executed with root user.${N}"
+    echo -e "${G}Script executed with root user.${N}"
 fi
 
 yum list installed nginx
