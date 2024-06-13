@@ -8,7 +8,7 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
-LOGFILE=/tmp/$(basename-$0)-$DATE.log
+LOGFILE=/tmp/$(basename $0)-$DATE.log
 
 VALIDATE() {
     if [ $1 -ne 0 ]
