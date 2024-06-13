@@ -13,9 +13,9 @@ LOGFILE=/tmp/$(basename $0)-$DATE.log
 VALIDATE() {
     if [ $1 -ne 0 ]
     then
-        echo -e "$N $2 . . ${R}FAILED${N}"
+        echo -e "${N}$2 . . ${R}FAILED${N}"
     else
-        echo -e "$N $2 . . ${G}SUCCESS${N}"
+        echo -e "${N}$2 . . ${G}SUCCESS${N}"
     fi
 }
 
@@ -40,7 +40,7 @@ sed -i "s/127.0.0.1/0.0.0.0/g" /etc/redis.conf &>> $LOGFILE
 VALIDATE $? "Remote Access to Redis"
 
 systemctl enable redis
-VALIDATE $? "Enabling Redis service"
+VALIDATE $? "Enabling Redis service" &>> $LOGFILE
 
 systemctl start redis
 VALIDATE $? "Starting Redis service"
