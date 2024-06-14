@@ -52,6 +52,9 @@ VALIDATE $? "Unzipped shipping.zip to app directory"
 mvn clean package &>> $LOGFILE
 VALIDATE $? "Downloading and Installing all dependencies"
 
+mv target/shipping-1.0.jar shipping.jar &>> $LOGFILE
+VALIDATE $? "renaming jar file"
+
 if [ -f /home/centos/roboshop-shell/shipping.service ]
 then
     cp /home/centos/roboshop-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
