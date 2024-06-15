@@ -37,8 +37,6 @@ do
         IP_ADDRESS=$(GET_IP "$INSTANCE_ID" "private")
     fi
 
-    echo "Creating Instance $i: $IP_ADDRESS"
-
     aws route53 change-resource-record-sets \
     --hosted-zone-id $ZONEID \
     --change-batch '
@@ -57,4 +55,5 @@ do
         }]
     }
     '
+    echo "Creating Instance $i: $IP_ADDRESS assigned to Rout53 record: $i.$DOMAIN_NAME"
 done
