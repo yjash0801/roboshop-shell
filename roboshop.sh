@@ -7,7 +7,7 @@ INSTANCES=("mongodb" "mysql" "redis" "rabbitmq" "catalogue" "user" "cart" "shipp
 for i in "${INSTANCES[@]}"
 do
     echo "Instance creating: $i"
-    if [ $i == "mongodb "] || [$i == "mysql"]
+    if [ $i == "mongodb "] || [ $i == "mysql" ]
     then
         INSTANCE_TYPE="t3.micro"
     else
