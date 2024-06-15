@@ -8,7 +8,7 @@ LOG=/home/centos/Instance.log
 for i in "${INSTANCES[@]}"
 do
     echo "Instance creating: $i"
-    if [ $i == "mongodb"] || [ $i == "mysql" ]
+    if [ $i == "mongodb" ] || [ $i == "mysql" ]
     then
         INSTANCE_TYPE="t3.micro"
     else
