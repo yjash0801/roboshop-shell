@@ -3,7 +3,8 @@
 AMI=ami-0b4f379183e5706b9
 SG=sg-0e28e727304af5f18
 INSTANCES=("MongoDB" "MySQL" "Redis" "RabbitMQ" "Web" "Catalogue" "User" "Cart" "Shipping" "Payment" "Dispatch")
-
+ZONEID=Z035925639NOHIW62OJ2G
+DOMAIN_NAME="mechanoidstore.online"
 GET_IP(){
     instance_id=$1
     ip_type=$2
@@ -38,4 +39,22 @@ do
 
     echo "Creating Instance $i: $IP_ADDRESS"
 
+    aws route53 change-resource-record-sets \
+    --hosted-zone-id $ZONEID \
+    --change-batch '
+    {
+        "Comment": "Creating a record set for cognito endpoint",
+        "Changes": [{
+        "Action"              : "CREATE",
+        "ResourceRecordSet"  : {
+            "Name"              : "'$i'.'$DOMAIN_NAME'",
+            "Type"             : "A",
+            "TTL"              : 1,
+            "ResourceRecords"  : [{
+                "Value"         : "'$IP_ADDRESS'"
+            }]
+        }
+        }]
+    }
+    '
 done
