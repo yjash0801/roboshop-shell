@@ -9,9 +9,9 @@ GET_IP(){
     ip_type=$2
     if [ $ip_type = "public" ]
     then
-        aws ec2 describe-instances --instances-ids $instance_id --query 'Reservations[0].Instances[0].PublicIpAddress' --output text
+        aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].PublicIpAddress' --output text
     else
-        aws ec2 describe-instances --instances-ids $instance_id --query 'Reservations[0].Instances[0].PrivateIpAddress' --output text
+        aws ec2 describe-instances --instance-ids $instance_id --query 'Reservations[0].Instances[0].PrivateIpAddress' --output text
     fi
 }
 
